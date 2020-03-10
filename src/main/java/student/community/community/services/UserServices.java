@@ -13,6 +13,7 @@ public class UserServices {
     UserMapper userMapper;
 
     public List<Map<String,Object>> query(String uname, String password){
+
         return  userMapper.query(uname,password);
     }
 

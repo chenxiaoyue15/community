@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import student.community.community.model.User;
 import student.community.community.services.UserServices;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,25 +16,24 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserServices userServices;
-
     @RequestMapping("/login")
     public String login() {
         return "login.html";
     }
-
     @RequestMapping(value = "/loginsuc" , method = RequestMethod.GET)
     @ResponseBody
-    private Map<String,Object> loginsuc(String name, String password) {
-        System.out.println(name);
-        System.out.println(userServices.query(name, password));
-        System.out.println("login controller");
+    private Map<String,Object> loginsuc(String name, String password,HttpServletRequest request) {
+
         int i = userServices.query(name,password).size();
-        System.out.println(i);
         Map<String, Object> map = new HashMap< >();
         if(i<=0)
-        { map.put("success",false);}
-        else{map.put("success",true);}
+        { map.put("success",false);
 
+        }
+        else{map.put("success",true);
+            request.getSession().setAttribute("user",name);
+
+        }
         return map;
     }
 

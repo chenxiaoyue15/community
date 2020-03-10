@@ -2,11 +2,22 @@ package student.community.community.model;
 
 public class User {
     private Long id;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", pwd='" + pwd + '\'' +
+                ", msg='" + msg + '\'' +
+                ", success=" + success +
+                '}';
+    }
+
     private String name;
     private int age;
     private String pwd;
-    private String msg;
-    private boolean success;
 
     public Long getId() {
         return id;
@@ -55,6 +66,11 @@ public class User {
     public void setSuccess(boolean success) {
         this.success = success;
     }
+
+    private String msg;
+    private boolean success;
+
+
 }
 
 
