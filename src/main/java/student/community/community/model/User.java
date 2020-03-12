@@ -1,31 +1,22 @@
 package student.community.community.model;
 
 public class User {
-    private Long id;
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                ", pwd='" + pwd + '\'' +
-                ", msg='" + msg + '\'' +
-                ", success=" + success +
-                '}';
-    }
-
-    private String name;
-    private int age;
-    private String pwd;
-
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
+
+    private int id;
+    private String name;
+    private int age;
+    private String pwd;
+    private String password;
+    private String token;
+
+
 
     public String getName() {
         return name;
@@ -51,26 +42,33 @@ public class User {
         this.pwd = pwd;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getPassword() {
+        return password;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public boolean isSuccess() {
-        return success;
+    public String getToken() {
+        return token;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
+    public void setToken(String token) {
+        this.token = token;
     }
 
-    private String msg;
-    private boolean success;
-
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", pwd='" + pwd + '\'' +
+                ", password='" + password + '\'' +
+                ", token='" + token + '\'' +
+                '}';
+    }
 }
 
 

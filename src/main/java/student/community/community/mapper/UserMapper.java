@@ -21,4 +21,8 @@ public interface  UserMapper {
     @Select("insert into T_USER(name,password) values (#{uname},#{password})")
     public List<Map<String,Object>> add(@Param("uname") String name, @Param("password") String password);
 
+    @Select("select * from T_USER where token = #{token}")
+    User findByToken(@Param("token") String token);
+    @Insert("insert into T_USER(token,name,pwd) values (#{token},#{name},#{password})")
+    public void insert(User user);
 }

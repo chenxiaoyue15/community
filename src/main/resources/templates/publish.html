@@ -47,13 +47,15 @@
                 <button type="submit" class="btn btn-default">搜索</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">登录</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">我 <span class="caret"></span></a>
+                <li class="dropdown" th:if="${session.user != null}">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.user.getName()}"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">消息中心</a></li>
                         <li><a href="#">个人资料</a></li>
                         <li><a href="#">退出登录</a></li>
+                    </ul>
+                </li>
+                <li th:if="${session.user == null}"><a href="/login">登录</a></li>
 
                     </ul>
                 </li>
@@ -66,20 +68,22 @@
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
-            <form action="">
+            <form action="/publish" method="post">//提交请求的地址，post方式路由，当点击发布，他会寻找地址为publish，请求方法为postMapping的接口
+                                                   // 通过RequestParam去接受title，des..，tag的同时，放到model里面，为了回显到页面上去，其实，要验证下是否为空，是否登录
                 <div class="form-group">
                     <label for="title">问题</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="简单描述问题">
+                    <input type="text" class="form-control" id="title" th:value="*{title}"name="title" placeholder="简单描述问题">
                 </div>
                 <div class="form-group">
-                    <label for="title">详细介绍问题</label>
-                    <textarea name="description" id="description" class="form-control" cols="30" rows="10"></textarea>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="简单描述问题">
+                    <label for="description">详细介绍问题</label>
+                    <textarea name="description" id="description" th:value="*{description}"class="form-control" cols="30" rows="10"></textarea>
+
                 </div>
                 <div class="form-group">
-                    <label for="title">添加标签</label>
-                    <input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签">
+                    <label for="tag">添加标签</label>
+                    <input type="text" class="form-control" th:value="*{tag}" id="tag" name="tag" placeholder="输入标签">
                 </div>
+                <div class="alert alert-danger" th:text="${error}" th:if="${error != null}"></div>
                 <button type="submit" class="btn btn-success btn-publish">发布</button>
             </form>
             <hr>
