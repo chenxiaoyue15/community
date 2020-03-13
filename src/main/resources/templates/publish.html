@@ -21,7 +21,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">交流平台</a>
+            <a class="navbar-brand" href="/index">交流平台</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
@@ -68,16 +68,16 @@
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
-            <form action="/publish" method="post">//提交请求的地址，post方式路由，当点击发布，他会寻找地址为publish，请求方法为postMapping的接口
-                                                   // 通过RequestParam去接受title，des..，tag的同时，放到model里面，为了回显到页面上去，其实，要验证下是否为空，是否登录
+            <form action="/publish" method="post"><!--提交请求的地址，post方式路由，当点击发布，他会寻找地址为publish，请求方法为postMapping的接口-->
+                                                   <!-- 通过RequestParam去接受title，des..，tag的同时，放到model里面，为了回显到页面上去，其实，要验证下是否为空，是否登录-->
                 <div class="form-group">
                     <label for="title">问题</label>
                     <input type="text" class="form-control" id="title" th:value="*{title}"name="title" placeholder="简单描述问题">
                 </div>
                 <div class="form-group">
                     <label for="description">详细介绍问题</label>
-                    <textarea name="description" id="description" th:value="*{description}"class="form-control" cols="30" rows="10"></textarea>
-
+                    <textarea name="description" id="description" th:text="*{description}" class="form-control" cols="30" rows="10"></textarea>
+<!-- th:value="*{title }  th:text="*{description}等是thymeleaf的数据回显，先保存在model中，有错误的时候可以回显已输入内容到网页-->
                 </div>
                 <div class="form-group">
                     <label for="tag">添加标签</label>
@@ -91,5 +91,7 @@
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <h3>发布问题指南</h3>
         </div>
+    </div>
+</div>
 </body>
 </html>

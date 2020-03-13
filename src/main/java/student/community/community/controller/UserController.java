@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import student.community.community.mapper.UserMapper;
 import student.community.community.model.User;
@@ -29,7 +30,7 @@ public class UserController {
     }
     @RequestMapping(value = "/loginsuc" , method = RequestMethod.GET)
     @ResponseBody
-    private Map<String,Object> loginsuc(String name, String password, HttpServletRequest request,HttpServletResponse response) {
+    private Map<String,Object> loginsuc(String name, String password, HttpServletRequest request, HttpServletResponse response, Model model) {
 
 
         int i = userServices.query(name,password).size();
@@ -51,6 +52,7 @@ public class UserController {
             response.addCookie(new Cookie("token",token));// 服务器返回给浏览器cookie以便下次判断
             System.out.println(token);
         }
+
 
         return map;
     }

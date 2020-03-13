@@ -23,6 +23,9 @@ public interface  UserMapper {
 
     @Select("select * from T_USER where token = #{token}")
     User findByToken(@Param("token") String token);
-    @Insert("insert into T_USER(token,name,pwd) values (#{token},#{name},#{password})")
+    @Insert("insert into T_USER(token,name,pwd,avatar_url) values (#{token},#{name},#{password},#{avatarUrl})")
     public void insert(User user);
+
+    @Select("select * from T_USER where id = #{id}")
+    User findById(@Param("id") Integer id);
 }
