@@ -9,3 +9,49 @@ body{
     float: right;
     margin-bottom: 14px;
 }
+.media-object{
+    width: 38px;
+    height: 38px;
+}
+.text-desc{
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+
+}
+.login{/*class选择器*/
+    width: 300px;
+    height: 300px;
+    background: #e6e6e6;
+    margin: auto;
+    border-radius: 10px 10px 10px 10px;}
+.title1{
+    line-height: 60px;
+    text-align: center;/*水平居中*/
+    color:green;
+    font-size: 2em;
+}
+.login-content{
+    display: flex;
+    flex-direction: column;/*改变弹性盒方向*/
+    justify-content: space-around;
+    align-items: center;
+    height: 200px;
+    background-color: #cccccc;
+}
+.login-content input{
+    width: 70%;
+    height: 30px;
+    border-radius: 10px 10px 10px 10px;
+    outline: none;
+    text-indent: 1em;
+}
+.login-content input[type="button"]{
+    text-indent: 0;
+    background-color: red;
+    color: #ffffff;
+}
+
+.profile .section{
+    margin-top: 17px;
+}

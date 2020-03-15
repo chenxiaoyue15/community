@@ -2,52 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>用户登录</title>
-    <style>/*css样式表*/
-        .login{/*class选择器*/
-            width: 300px;
-            height: 300px;
-            background: #e6e6e6;
-            margin: auto;
-            border-radius: 10px 10px 10px 10px;}
-        .title1{
-            line-height: 60px;
-            text-align: center;/*水平居中*/
-            color:green;
-            font-size: 2em;
-        }
-        .login-content{
-            display: flex;
-            flex-direction: column;/*改变弹性盒方向*/
-            justify-content: space-around;
-            align-items: center;
-            height: 200px;
-            background-color: #cccccc;
-        }
-        .login-content input{
-            width: 70%;
-            height: 30px;
-            border-radius: 10px 10px 10px 10px;
-            outline: none;
-            text-indent: 1em;
-        }
-        .login-content input[type="button"]{
-            text-indent: 0;
-            background-color: red;
-            color: #ffffff;
-        }
+    <style>
         html,body{
             height: 100%;
         }
         body{
             display: grid;/*网格布局*/
-
         }
-
-
     </style>
+    <title>用户登录</title>
+    <link rel="stylesheet" href="css/community.css"/>
 </head>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="js/jquery-3.4.1.min.js" ></script>
 <script>
     function login() {
         $.ajax({
@@ -59,7 +25,7 @@
                 console.log(d)
 
                 if (d.success) {
-                    window.location.href = 'index';
+                    window.location.href = '/';
                 } else {
 
                         alert("账号或者密码错误！");//显示带有一条指定消息和一个 OK 按钮的警告框
@@ -70,24 +36,6 @@
     }
 </script>
 <body>
-<!--<p> 请输入用户名和密码</p>
-<form >
-    <table>
-        <tr>
-            <td>用户名</td>
-            <td><input type="text" id="name" ></td>
-        </tr>
-        <tr>
-            <td>密 码</td>
-            <td><input type="password" id="password" ></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="button" onclick="login()" value="登陆">
-            </td>
-        </tr>
-    </table>
-</form>//-->
 <div class="login">
     <h2 class="title1">Login</h2>
     <form class="login-content">

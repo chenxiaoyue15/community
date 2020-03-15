@@ -1,9 +1,6 @@
 package student.community.community.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.stereotype.Repository;
 import student.community.community.model.User;
@@ -28,4 +25,7 @@ public interface  UserMapper {
 
     @Select("select * from T_USER where id = #{id}")
     User findById(@Param("id") Integer id);
+
+    @Update( "UPDATE T_USER SET token=#{token} WHERE name=#{name}")
+    void update(User user);
 }

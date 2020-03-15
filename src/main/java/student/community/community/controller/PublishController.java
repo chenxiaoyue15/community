@@ -55,20 +55,8 @@ public class PublishController {
         }
 
 
-        User user = null;
-        Cookie[] cookies=request.getCookies();
-        for(Cookie cookie:cookies){
-            if (cookie.getName().equals("token")){
-                String token = cookie.getValue();
-                System.out.println(token);
-                user = userMapper.findByToken(token);
-                if (user !=null){
+        User user = (User) request.getSession().getAttribute("user");
 
-                    request.getSession().setAttribute("user",user );
-                }
-                break;
-            }
-        }
         if (user==null){
             model.addAttribute("error","用户未登录");
             return "publish";

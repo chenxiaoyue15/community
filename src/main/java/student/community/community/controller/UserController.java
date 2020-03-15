@@ -45,8 +45,7 @@ public class UserController {
             String token = UUID.randomUUID().toString();
             user.setToken(token);
             user.setName(name);
-            user.setPwd(password);
-            userMapper.insert(user);
+            userMapper.update(user);
 
             // 创建cookie并将成功登陆的用户保存在里面
             response.addCookie(new Cookie("token",token));// 服务器返回给浏览器cookie以便下次判断
