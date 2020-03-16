@@ -18,7 +18,7 @@
             <h4><span th:text="${question.title}"></span></h4>
             <span class="text-desc">
                 作者：<span th:text="${question.user.accountId }"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                阅读量：<span th:text="${question.likeCount}"></span>
+                阅读量：<span th:text="${question.viewCount}"></span>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                 发布时间：<span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm:ss')}"></span>
             </span>

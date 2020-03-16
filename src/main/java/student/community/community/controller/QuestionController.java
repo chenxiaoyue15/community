@@ -14,8 +14,9 @@ public class QuestionController {
     private QuestionService questionService;
     @GetMapping("/question/{id}")
     public String question(@PathVariable(name = "id") Integer id, Model model){
-        QuestionDTO questionDTO = questionService.getById(id);
-        model.addAttribute("question",questionDTO);
+        QuestionDTO questionDTO = questionService.getById(id);//把数据库里id等于id的数据传给questionDTO
+        questionService.incView(id);//累加阅读数，用incView方法更新数据库里的数据
+        model.addAttribute("question",questionDTO);//回显数据到页面
         return "question";
     }
 

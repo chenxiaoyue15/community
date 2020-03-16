@@ -64,12 +64,12 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public QuestionDTO getById(Integer id) {
+    public QuestionDTO getById(Integer id) { // getByaId把两张表联系起来
         Question question=questionMapper.getById(id);
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);
-        User  user = userMapper.findById(question.getCreator());
-        questionDTO.setUser(user);
+        User  user = userMapper.findById(question.getCreator());//通过作者的值找到User表作者的信息
+        questionDTO.setUser(user);//把user信息传给DTO
         return questionDTO;
     }
 
@@ -83,5 +83,14 @@ public class QuestionService {
             question.setGmtModified(question.getGmtCreate());
             questionMapper.update(question);
         }
+    }
+
+    public void incView(Integer id) {
+        Question question = questionMapper.getById(id);//把question里面id等于id的数据传过来
+        Question updateQuestion = new Question();//新建一个方法
+        updateQuestion.setId(question.getId());//把question里的id赋给updateQuestion
+        updateQuestion.setViewCount(question.getViewCount()+1);//把question里的浏览数加1赋给updateQuestion
+        questionMapper.updateViewCount(updateQuestion);//用updateViewCount方法更新数据库
+
     }
 }
