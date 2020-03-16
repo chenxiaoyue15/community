@@ -5,12 +5,15 @@ import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import student.community.community.dto.QuestionDTO;
 import student.community.community.mapper.QuestionMapper;
 import student.community.community.mapper.UserMapper;
 import student.community.community.model.Question;
 import student.community.community.model.User;
+import student.community.community.services.QuestionService;
 import student.community.community.services.UserServices;
 
 import javax.servlet.http.Cookie;
@@ -20,12 +23,20 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class PublishController {
 
+
     @Autowired
-    private QuestionMapper questionMapper;
-    @Autowired
-    private UserServices userServices;
-    @Autowired
-    private UserMapper userMapper;
+    private QuestionService questionService;
+
+    @GetMapping("/publish/{id}")
+    public String edit(@PathVariable(name = "id")Integer id,Model model){
+        QuestionDTO question = questionService.getById(id);
+        model.addAttribute("title",question.getTitle());
+        model.addAttribute("description",question.getDescription());
+        model.addAttribute("tag",question.getTag());
+        model.addAttribute("id",question.getId());
+        return "publish";
+    }
+
     @GetMapping("/publish")
     public String publish(){
 
@@ -36,11 +47,13 @@ public class PublishController {
             @RequestParam(value = "title",required = false) String title,
             @RequestParam(value = "description",required = false) String description,
             @RequestParam(value = "tag",required = false) String tag,
+            @RequestParam(value = "id",required = false)Integer id,
             HttpServletRequest request,
             Model model){
         model.addAttribute("title",title);
         model.addAttribute("description",description);
         model.addAttribute("tag",tag);
+
         if (title==null || title==""){
             model.addAttribute("error","标题不能为空");
             return "publish";
@@ -66,9 +79,10 @@ public class PublishController {
         question.setDescription(description);
         question.setTag(tag);
         question.setCreator(user.getId());
-        question.setGmtCreate(System.currentTimeMillis());
-        question.setGmtModified(question.getGmtCreate());
-        questionMapper.create(question);
+
+        question.setId(id);
+        questionService.createOrUpdate(question);
+
         return "redirect:/";
     }
 }

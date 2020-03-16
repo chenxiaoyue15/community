@@ -3,11 +3,11 @@
 <head>
     <title>发布--交流平台</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
-    <link rel="stylesheet" href="css/community.css"/>
-    <script src="js/jquery-3.4.1.min.js" ></script>
-    <script src="js/bootstrap.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/community.css"/>
+    <script src="/js/jquery-3.4.1.min.js" ></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 
 
 
@@ -19,7 +19,7 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
             <form action="/publish" method="post"><!--提交请求的地址，post方式路由，当点击发布，他会寻找地址为publish，请求方法为postMapping的接口-->
-                                                   <!-- 通过RequestParam去接受title，des..，tag的同时，放到model里面，为了回显到页面上去，其实，要验证下是否为空，是否登录-->
+                <input type="hidden" name="id" th:value="${id}">                                  <!-- 通过RequestParam去接受title，des..，tag的同时，放到model里面，为了回显到页面上去，其实，要验证下是否为空，是否登录-->
                 <div class="form-group">
                     <label for="title">问题</label>
                     <input type="text" class="form-control" id="title" th:value="*{title}"name="title" placeholder="简单描述问题">

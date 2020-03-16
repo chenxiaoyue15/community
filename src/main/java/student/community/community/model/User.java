@@ -7,14 +7,13 @@ import lombok.Data;
 public class User {
 
 
-    private int id;
+    private Integer id;
     private String name;
     private int age;
     private String pwd;
-    private String password;
     private String token;
     private String avatarUrl;
-
+    private String accountId;
 
 }
 
