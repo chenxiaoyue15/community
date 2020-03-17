@@ -5,11 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 import student.community.community.dto.QuestionDTO;
 import student.community.community.services.QuestionService;
 
 @Controller
 public class QuestionController {
+
     @Autowired
     private QuestionService questionService;
     @GetMapping("/question/{id}")

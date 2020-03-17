@@ -28,4 +28,8 @@ public interface QuestionMapper {
 
     @Update("update question set view_count=#{viewCount} where id = #{id}")//只更新浏览数
     void updateViewCount(Question updateQuestion);
+
+    @Update("update question set comment_count=#{commentCount} where id = #{id}")
+    void updateCommentCount(Question updateQuestion);
+
 }
