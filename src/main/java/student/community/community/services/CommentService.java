@@ -1,13 +1,11 @@
 package student.community.community.services;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import student.community.community.dto.CommentDTO;
-import student.community.community.dto.QuestionDTO;
+import student.community.community.enums.CommentTypeEnum;
 import student.community.community.mapper.CommentMapper;
-import student.community.community.mapper.QuestionMapper;
 import student.community.community.mapper.UserMapper;
 import student.community.community.model.Comment;
 import student.community.community.model.User;
@@ -26,11 +24,18 @@ public class CommentService {
     private CommentMapper commentMapper;
 
     public void insert(Comment comment) {
+        //插入评论
         commentMapper.insert(comment);
+        //增加评论数
+        Comment updateCommentCount = new Comment();
+        updateCommentCount.setId(comment.getParentId());
+        updateCommentCount.setCommentCount(comment.getCommentCount()+1);
+        commentMapper.incCommentCount(updateCommentCount);
     }
 
-    public List<CommentDTO> listByQuestionId(Integer id) {
-        List<Comment> comments = commentMapper.getById(id);
+    public List<CommentDTO> listByTargetId(Integer id, CommentTypeEnum type) {
+//回显评论
+        List<Comment> comments = commentMapper.getById(id,type.getType());
         if (comments.size() == 0) {
             return new ArrayList<>();
         }

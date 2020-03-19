@@ -2,10 +2,11 @@ package student.community.community.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import student.community.community.dto.CommentCreateDTO;
+import student.community.community.dto.CommentDTO;
 import student.community.community.dto.ResultDTO;
+import student.community.community.enums.CommentTypeEnum;
 import student.community.community.mapper.QuestionMapper;
 import student.community.community.model.Comment;
 import student.community.community.model.Question;
@@ -14,6 +15,7 @@ import student.community.community.services.CommentService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -37,6 +39,7 @@ public class CommentController {
         comment.setGmtModified(System.currentTimeMillis());
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setCommentator(user.getId());
+        comment.setCommentCount(0);
         commentService.insert(comment);
         Question question = questionMapper.getById(comment.getParentId());//把question里面id等于id的数据传过来
         Question updateQuestion = new Question();//新建一个方法
@@ -48,5 +51,11 @@ public class CommentController {
         System.out.println(comment);
         return ResultDTO.okOf();
 
+    }
+    @ResponseBody
+    @RequestMapping(value = "/comment/{id}", method = RequestMethod.GET)
+    public ResultDTO<List<CommentDTO>> comments(@PathVariable(name = "id") Integer id){
+        List<CommentDTO>commentDTOS = commentService.listByTargetId(id,CommentTypeEnum.COMMENT);
+        return  ResultDTO.okOf(commentDTOS);
     }
 }

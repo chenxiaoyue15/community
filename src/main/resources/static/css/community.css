@@ -85,7 +85,30 @@ body{
     cursor: pointer;
     /*鼠标悬浮变小手*/
 }
+.menu .active{
+    color: #400ef3;
+}
 .menu .icon:hover{
     /*鼠标悬浮图案变色*/
+    color: #400ef3;
+}
+.comment-2{
+    border-radius: 10px;
+    /*圆角属性*/
+    margin-top: 10px;
+    /*距离顶部*/
+    border: 1px solid #999;
+    /*外边框属性*/
+    padding-top:15px ;
+    margin-bottom:15px ;
+}
+.comment-2 .btn{
+    margin: 10px 0 ;
+}
+.menu .comment-icon{
+    font-size: 15px;
+    cursor: pointer;
+}
+.menu .comment-icon :hover{
     color: #400ef3;
 }
