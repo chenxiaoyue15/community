@@ -55,6 +55,10 @@ body{
 .profile .section{
     margin-top: 17px;
 }
+
+.question-title{
+    margin-top: 25px;
+}
 .question-menu{
     color: #999;
     font-size: 13px;
