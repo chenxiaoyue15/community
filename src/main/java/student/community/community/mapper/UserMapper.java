@@ -13,10 +13,10 @@ import java.util.Map;
 @Mapper
 public interface  UserMapper {
     @Select("select * from T_USER where name=#{uname} and pwd=#{password}")
-    public List<Map<String,Object>> query(@Param("uname") String name, @Param("password") String password);
+     List<Map<String,Object>> query(@Param("uname") String name, @Param("password") String password);
 
     @Select("insert into T_USER(name,password) values (#{uname},#{password})")
-    public List<Map<String,Object>> add(@Param("uname") String name, @Param("password") String password);
+     List<Map<String,Object>> add(@Param("uname") String name, @Param("password") String password);
 
     @Select("select * from T_USER where token = #{token}")
     User findByToken(@Param("token") String token);
@@ -28,4 +28,17 @@ public interface  UserMapper {
 
     @Update( "UPDATE T_USER SET token=#{token} WHERE name=#{name}")
     void update(User user);
+
+
+
+    @Select("select * from T_USER where id = #{integer}")
+    User ById(@Param("integer")Integer integer);
+
+
+    //@Select("select * from T_USER where id  =#{userIds}")
+    //List<User> ById(@Param("userIds")List<Integer> userIds);
+
+
+
+
 }

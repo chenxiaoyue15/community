@@ -58,6 +58,8 @@ body{
 .question-menu{
     color: #999;
     font-size: 13px;
+    display: block;
+    margin-bottom: 17px;
 }
 .comment{
     margin: 10px 0;
@@ -65,4 +67,21 @@ body{
 .comment-btn{
     float: right;
     margin-bottom:10px ;
+}
+.comment-sp{
+    margin-top: 0;
+}
+.menu{
+    color: #999;
+    margin-top:5px ;
+}
+.menu .icon{
+    margin-right: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    /*鼠标悬浮变小手*/
+}
+.menu .icon:hover{
+    /*鼠标悬浮图案变色*/
+    color: #400ef3;
 }
