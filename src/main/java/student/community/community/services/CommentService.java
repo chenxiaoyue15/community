@@ -26,10 +26,13 @@ public class CommentService {
     public void insert(Comment comment) {
         //插入评论
         commentMapper.insert(comment);
+
+
         //增加评论数
+
         Comment updateCommentCount = new Comment();
         updateCommentCount.setId(comment.getParentId());
-        updateCommentCount.setCommentCount(comment.getCommentCount()+1);
+        //updateCommentCount.setCommentCount(comment.getCommentCount()+1);
         commentMapper.incCommentCount(updateCommentCount);
     }
 

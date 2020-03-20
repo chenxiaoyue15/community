@@ -7,7 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface QuestionMapper {
-    @Insert("insert into question(title,description,gmt_create,gmt_modified,creator,tag) values (#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag})")
+    @Insert("insert into question(title,description,gmt_create,gmt_modified,creator,tag,comment_count) values (#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag},#{commentCount})")
     void create(Question question);
     @Select("select * from question ORDER BY gmt_create DESC limit #{offset},#{size} ")
 //    ORDER BY gmt_create DESC 按时间最新排序
@@ -30,7 +30,7 @@ public interface QuestionMapper {
     @Update("update question set view_count=#{viewCount} where id = #{id}")//只更新浏览数
     void updateViewCount(Question updateQuestion);
 
-    @Update("update question set comment_count=#{commentCount} where id = #{id}")
+    @Update("update question set comment_count=comment_count where id = #{id}")
     void updateCommentCount(Question updateQuestion);
 
 }

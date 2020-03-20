@@ -27,9 +27,11 @@ public class CommentController {
 
     @ResponseBody
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
-    public Object post(@RequestBody CommentCreateDTO commentCreateDTO, HttpServletRequest request) {
+    public Object post(@RequestBody CommentCreateDTO commentCreateDTO,  HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
-
+        if (user == null) {
+            return ResultDTO.errorOf(2002, "未登录,请先登录");
+        }
 
 
         Comment comment = new Comment();
@@ -39,12 +41,12 @@ public class CommentController {
         comment.setGmtModified(System.currentTimeMillis());
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setCommentator(user.getId());
-        comment.setCommentCount(0);
+        comment.setCommentCount(1);
         commentService.insert(comment);
-        Question question = questionMapper.getById(comment.getParentId());//把question里面id等于id的数据传过来
+//        Question question = questionMapper.getById(comment.getParentId());//把question里面id等于id的数据传过来
         Question updateQuestion = new Question();//新建一个方法
-        updateQuestion.setId(question.getId());//把question里的id赋给updateQuestion
-        updateQuestion.setCommentCount(question.getCommentCount() + 1);//把question里的浏览数加1赋给updateQuestion
+        updateQuestion.setId(comment.getParentId());//把question里的id赋给updateQuestion
+//        updateQuestion.setCommentCount(question.getCommentCount() + 1);//把question里的浏览数加1赋给updateQuestion
         questionMapper.updateCommentCount(updateQuestion);
         Map<Object, Object> objectObjectHashMap = new HashMap<>();
         objectObjectHashMap.put("massage", "成功");
