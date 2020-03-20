@@ -91,3 +91,23 @@ function openComments(e) {
         }
     }
 }
+function selectTag(e) {
+    var value = e.getAttribute("data-tag");
+    var previous = $("#tag").val();
+    //不等于-1说明存在这个标签了
+    if (previous.indexOf(value) == -1) {
+        if (previous) {
+            $("#tag").val(previous + ',' + value);
+        } else {
+            $("#tag").val(value);
+        }
+    }
+
+    //有标签了就输入一个逗号，没有就直接输入值
+
+    
+}
+function showSelectTag() {
+    $("#select-tag").show();
+    
+}

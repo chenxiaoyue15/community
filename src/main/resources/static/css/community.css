@@ -62,7 +62,7 @@ body{
 .question-menu{
     color: #999;
     font-size: 13px;
-    display: block;
+
     margin-bottom: 17px;
 }
 .comment{
@@ -122,4 +122,13 @@ body{
     line-height: 20px;
     /*左边小点*/
     list-style: none;
+}
+.tag-tab{
+    margin-top: 10px;
+    display: none;
+    padding-top: 10px;
+}
+.tag-tab .label-info{
+    margin-right: 10px;
+
 }

@@ -6,9 +6,9 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="/css/community.css"/>
-    <script src="/js/jquery-3.4.1.min.js" ></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
-
+    <script src="/js/community.js" type="application/javascript"></script>
 
 
 </head>
@@ -19,19 +19,49 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
             <form action="/publish" method="post"><!--提交请求的地址，post方式路由，当点击发布，他会寻找地址为publish，请求方法为postMapping的接口-->
-                <input type="hidden" name="id" th:value="${id}">                                  <!-- 通过RequestParam去接受title，des..，tag的同时，放到model里面，为了回显到页面上去，其实，要验证下是否为空，是否登录-->
+                <input type="hidden" name="id" th:value="${id}">
+                <!-- 通过RequestParam去接受title，des..，tag的同时，放到model里面，为了回显到页面上去，其实，要验证下是否为空，是否登录-->
                 <div class="form-group">
-                    <label for="title">问题</label>
-                    <input type="text" class="form-control" id="title" th:value="*{title}"name="title" placeholder="简单描述问题">
+                    <label for="title">标题</label>
+                    <input type="text" class="form-control" id="title" th:value="*{title}" name="title"
+                           autocomplete="off" placeholder="简单描述问题">
                 </div>
                 <div class="form-group">
                     <label for="description">详细介绍问题</label>
-                    <textarea name="description" id="description" th:text="*{description}" class="form-control" cols="30" rows="10"></textarea>
-<!-- th:value="*{title }  th:text="*{description}等是thymeleaf的数据回显，先保存在model中，有错误的时候可以回显已输入内容到网页-->
+                    <textarea name="description" id="description" th:text="*{description}" class="form-control"
+                              cols="30" rows="10"></textarea>
+                    <!-- th:value="*{title }  th:text="*{description}等是thymeleaf的数据回显，先保存在model中，有错误的时候可以回显已输入内容到网页-->
                 </div>
+
                 <div class="form-group">
                     <label for="tag">添加标签</label>
-                    <input type="text" class="form-control" th:value="*{tag}" id="tag" name="tag" placeholder="输入标签">
+                    <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag"
+                           autocomplete="off" placeholder="输入标签" onclick="showSelectTag()">
+                </div>
+
+                <!-- 标签展示导航 -->
+                <div id="select-tag" class="tag-tab ">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" th:each="selectCategory:${tags}">
+                        <a th:href="${'#'+selectCategory.className}" aria-controls="home" role="tab" data-toggle="tab"
+                           th:text="${selectCategory.className}"></a>
+                        </li>
+
+                    </ul>
+                    <!-- 标签内容 -->
+                    <div class="tab-content ">
+                        <div role="tabpanel" th:id="${selectCategory.className}"
+                             th:each="selectCategory : ${tags}"
+                        th:class="${selectCategoryStat.first ? 'active tab-pane':'tab-pane'}">
+                        <span>
+                        <span class="label label-info" th:each="selectTag : ${selectCategory.tags}"><span
+                                class="glyphicon glyphicon-tags" onclick="selectTag(this)" th:data-tag="${selectTag}"
+                                th:text="${'  '+selectTag}">
+                            </span>
+                        </span>
+                        </span>
+                        </div>
+                    </div>
                 </div>
                 <div class="alert alert-danger" th:text="${error}" th:if="${error != null}"></div>
                 <button type="submit" class="btn btn-success btn-publish">发布</button>
