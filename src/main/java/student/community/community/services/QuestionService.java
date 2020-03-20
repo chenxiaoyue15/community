@@ -1,5 +1,6 @@
 package student.community.community.services;
 
+import org.h2.util.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,8 +11,13 @@ import student.community.community.mapper.UserMapper;
 import student.community.community.model.Question;
 import student.community.community.model.User;
 
+import sun.swing.StringUIClientPropertyKey;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -94,6 +100,22 @@ public class QuestionService {
         updateQuestion.setId(question.getId());//把question里的id赋给updateQuestion
         updateQuestion.setViewCount(question.getViewCount()+1);//把question里的浏览数加1赋给updateQuestion
         questionMapper.updateViewCount(updateQuestion);//用updateViewCount方法更新数据库
+
+    }
+
+    public List<QuestionDTO> selectRelated(QuestionDTO queryDTO) {
+        String[] tags=org.apache.commons.lang3.StringUtils.split(queryDTO.getTag(),",");
+        String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));
+        Question question = new Question();
+        question.setId(queryDTO.getId());
+        question.setTag(regexpTag);
+        List<Question>questions=questionMapper.selectRelated(question);
+        List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(q,questionDTO);
+            return questionDTO;
+        }).collect(Collectors.toList());
+        return questionDTOS;
 
     }
 }

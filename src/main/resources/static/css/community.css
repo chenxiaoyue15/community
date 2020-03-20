@@ -112,3 +112,14 @@ body{
 .menu .comment-icon :hover{
     color: #400ef3;
 }
+.question-tag{
+    margin-right: 5px;
+}
+.question-related{
+    /*左边距0*/
+    padding-left: 2px;
+    /*行距*/
+    line-height: 20px;
+    /*左边小点*/
+    list-style: none;
+}

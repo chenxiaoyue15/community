@@ -33,4 +33,11 @@ public interface QuestionMapper {
     @Update("update question set comment_count=comment_count where id = #{id}")
     void updateCommentCount(Question updateQuestion);
 
+
+
+
+    @Select("select * from question  where id != #{id} and tag regexp #{tag}")
+    List<Question> selectRelated(Question question);
+
+
 }
