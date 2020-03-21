@@ -6,24 +6,33 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import student.community.community.mapper.UserMapper;
 import student.community.community.model.User;
+import student.community.community.services.NotificationService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
 @Service
 public class SessionInterceptor implements HandlerInterceptor {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private NotificationService notificationService;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Cookie[] cookies=request.getCookies();
-        for(Cookie cookie:cookies){
-            if (cookie.getName().equals("token")){
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("token")) {
                 String token = cookie.getValue();
-                User user = userMapper.findByToken(token);
-                if (user !=null){
+                List<User> users = userMapper.findByToken(token);
+//                User user = userMapper.findByToken(token);
+                if (users.size() != 0) {
 
-                    request.getSession().setAttribute("user",user );
+                    request.getSession().setAttribute("user", users.get(0));
+                    Integer unreadCount = notificationService.unreadCount(users.get(0).getId());
+                    request.getSession().setAttribute("unreadCount", unreadCount);
                 }
                 break;
             }

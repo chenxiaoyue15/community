@@ -11,5 +11,7 @@ public class Notification {
     private Long gmtCreate;
     private Integer type;
     private Integer status;
+    private String notifierName;
+    private String outerTitle;
 
 }

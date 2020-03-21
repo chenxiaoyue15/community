@@ -39,7 +39,7 @@ public class QuestionService {
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-            paginationDTO.setQuestions(questionDTOList);
+            paginationDTO.setData(questionDTOList);
 
 
             Integer totalCount=questionMapper.count();
@@ -64,7 +64,7 @@ public class QuestionService {
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-        paginationDTO.setQuestions(questionDTOList);
+        paginationDTO.setData(questionDTOList);
 
 
         return paginationDTO;

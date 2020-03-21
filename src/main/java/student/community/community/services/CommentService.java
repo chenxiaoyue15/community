@@ -32,55 +32,59 @@ public class CommentService {
     private NotificationMapper notificationMapper;
     @Autowired
     private QuestionMapper questionMapper;
-    public void insert(Comment comment) {
-        if (comment.getType()==CommentTypeEnum.COMMENT.getType()){
-        //插入评论
-        Comment dbComment = commentMapper.selectById(comment.getParentId());
-        commentMapper.insert(comment);
+
+    public void insert(Comment comment, User commentator) {
+        if (comment.getType() == CommentTypeEnum.COMMENT.getType()) {
+            //插入评论
+            Comment dbComment = commentMapper.selectById(comment.getParentId());
+            Question question = questionMapper.getById(dbComment.getParentId());
+            commentMapper.insert(comment);
 
 
-        //增加评论数
-        Comment updateCommentCount = new Comment();
-        updateCommentCount.setId(comment.getParentId());
-        //updateCommentCount.setCommentCount(comment.getCommentCount()+1);
-        commentMapper.incCommentCount(updateCommentCount);
-        //创建通知
-        createNotify(comment, dbComment.getCommentator(), NotificationTypeEnum.REPLY_COMMENT);
-    }else {
+            //增加评论数
+            Comment updateCommentCount = new Comment();
+            updateCommentCount.setId(comment.getParentId());
+            //updateCommentCount.setCommentCount(comment.getCommentCount()+1);
+            commentMapper.incCommentCount(updateCommentCount);
+            //创建通知
+            createNotify(comment, dbComment.getCommentator(), commentator.getAccountId(), question.getTitle(), NotificationTypeEnum.REPLY_COMMENT, question.getId());
+        } else {
             //回复问题
             Question question = questionMapper.getById(comment.getParentId());
             commentMapper.insert(comment);
             question.setId(comment.getParentId());
             questionMapper.updateCommentCount(question);
             //创建通知
-            createNotify(comment,question.getCreator(), NotificationTypeEnum.REPLY_QUESTION);
+            createNotify(comment, question.getCreator(), commentator.getAccountId(), question.getTitle(),NotificationTypeEnum.REPLY_QUESTION, question.getId());
         }
 
     }
-//        创建通知的方法
-    private void createNotify(Comment comment, Integer receiver, NotificationTypeEnum notificationType) {
+
+    //        创建通知的方法
+    private void createNotify(Comment comment, Integer receiver, String notifierName, String outerTitle, NotificationTypeEnum notificationType, Integer outerId) {
         Notification notification = new Notification();
         notification.setGmtCreate(System.currentTimeMillis());
         notification.setType(notificationType.getType());
-        notification.setOuterId(comment.getParentId());
+        notification.setOuterId(outerId);
         notification.setNotifier(comment.getCommentator());
         notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
         notification.setReceiver(receiver);
+        notification.setNotifierName(notifierName);
+        notification.setOuterTitle(outerTitle);
         notificationMapper.insert(notification);
     }
 
     public List<CommentDTO> listByTargetId(Integer id, CommentTypeEnum type) {
-//回显评论
-        List<Comment> comments = commentMapper.getById(id,type.getType());
+        //回显评论
+        List<Comment> comments = commentMapper.getById(id, type.getType());
         if (comments.size() == 0) {
             return new ArrayList<>();
         }
         Set<Integer> commentators = comments.stream().map(comment -> comment.getCommentator()).collect(Collectors.toSet());
         List<Integer> userIds = new ArrayList<>();
         userIds.addAll(commentators);
-       ArrayList<User> users = new ArrayList<>();
-        for (int i = 0;i<commentators.size();i++)
-        {
+        ArrayList<User> users = new ArrayList<>();
+        for (int i = 0; i < commentators.size(); i++) {
             User user = userMapper.ById(userIds.get(i));
             users.add(user);
 
@@ -88,12 +92,11 @@ public class CommentService {
         }
 
 
-
-       // List<User> users = userMapper.ById(userIds);
+        // List<User> users = userMapper.ById(userIds);
 
         Map<Integer, User> userMap = users.stream().collect(Collectors.toMap(user -> user.getId(), user -> user));
         List<CommentDTO> commentDTOS = comments.stream().map(comment -> {
-                CommentDTO commentDTO = new CommentDTO();
+            CommentDTO commentDTO = new CommentDTO();
             BeanUtils.copyProperties(comment, commentDTO);
             commentDTO.setUser(userMap.get(comment.getCommentator()));
             return commentDTO;

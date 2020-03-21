@@ -16,6 +16,6 @@ public interface CommentMapper {
     @Update("update comment set comment_count=comment_count+1 where id = #{id}")
     void incCommentCount(Comment updateCommentCount);
 
-    @Select("select * from comment where parent_id=#{id}  ORDER BY gmt_create DESC")
+    @Select("select * from comment where id=#{parentId}  ORDER BY gmt_create DESC")
     Comment selectById(Integer parentId);
 }

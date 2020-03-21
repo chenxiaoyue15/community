@@ -18,8 +18,8 @@ public interface  UserMapper {
     @Select("insert into T_USER(name,password) values (#{uname},#{password})")
      List<Map<String,Object>> add(@Param("uname") String name, @Param("password") String password);
 
-    @Select("select * from T_USER where token = #{token}")
-    User findByToken(@Param("token") String token);
+//    @Select("select * from T_USER where token = #{token}")
+//    User findByToken(@Param("token") String token);
     @Insert("insert into T_USER(token,name,pwd,avatar_url) values (#{token},#{name},#{password},#{avatarUrl})")
     public void insert(User user);
 
@@ -33,6 +33,11 @@ public interface  UserMapper {
 
     @Select("select * from T_USER where id = #{integer}")
     User ById(@Param("integer")Integer integer);
+    @Select("select * from T_USER where id = #{notify}")
+    List<User> selectIn(List<Integer> userIds);
+
+    @Select("select * from T_USER where token = #{token}")
+    List<User> findByToken(@Param("token")String token);
 
 
     //@Select("select * from T_USER where id  =#{userIds}")
