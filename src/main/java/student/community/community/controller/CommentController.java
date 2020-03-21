@@ -7,8 +7,12 @@ import student.community.community.dto.CommentCreateDTO;
 import student.community.community.dto.CommentDTO;
 import student.community.community.dto.ResultDTO;
 import student.community.community.enums.CommentTypeEnum;
+import student.community.community.enums.NotificationStatusEnum;
+import student.community.community.enums.NotificationTypeEnum;
+import student.community.community.mapper.NotificationMapper;
 import student.community.community.mapper.QuestionMapper;
 import student.community.community.model.Comment;
+import student.community.community.model.Notification;
 import student.community.community.model.Question;
 import student.community.community.model.User;
 import student.community.community.services.CommentService;
@@ -24,7 +28,8 @@ public class CommentController {
     private CommentService commentService;
     @Autowired
     private QuestionMapper questionMapper;
-
+    @Autowired
+    private NotificationMapper notificationMapper;
     @ResponseBody
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
     public Object post(@RequestBody CommentCreateDTO commentCreateDTO,  HttpServletRequest request) {
@@ -43,14 +48,10 @@ public class CommentController {
         comment.setCommentator(user.getId());
         comment.setCommentCount(1);
         commentService.insert(comment);
-//        Question question = questionMapper.getById(comment.getParentId());//把question里面id等于id的数据传过来
-        Question updateQuestion = new Question();//新建一个方法
-        updateQuestion.setId(comment.getParentId());//把question里的id赋给updateQuestion
-//        updateQuestion.setCommentCount(question.getCommentCount() + 1);//把question里的浏览数加1赋给updateQuestion
-        questionMapper.updateCommentCount(updateQuestion);
-        Map<Object, Object> objectObjectHashMap = new HashMap<>();
-        objectObjectHashMap.put("massage", "成功");
-        System.out.println(comment);
+//        Question updateQuestion = new Question();//新建一个方法
+//        updateQuestion.setId(comment.getParentId());//把question里的id赋给updateQuestion
+//        questionMapper.updateCommentCount(updateQuestion);
+
         return ResultDTO.okOf();
 
     }

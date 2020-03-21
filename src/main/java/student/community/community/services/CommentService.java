@@ -5,9 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import student.community.community.dto.CommentDTO;
 import student.community.community.enums.CommentTypeEnum;
+import student.community.community.enums.NotificationStatusEnum;
+import student.community.community.enums.NotificationTypeEnum;
 import student.community.community.mapper.CommentMapper;
+import student.community.community.mapper.NotificationMapper;
+import student.community.community.mapper.QuestionMapper;
 import student.community.community.mapper.UserMapper;
 import student.community.community.model.Comment;
+import student.community.community.model.Notification;
+import student.community.community.model.Question;
 import student.community.community.model.User;
 
 import java.util.ArrayList;
@@ -22,18 +28,45 @@ public class CommentService {
     private UserMapper userMapper;
     @Autowired
     private CommentMapper commentMapper;
-
+    @Autowired
+    private NotificationMapper notificationMapper;
+    @Autowired
+    private QuestionMapper questionMapper;
     public void insert(Comment comment) {
+        if (comment.getType()==CommentTypeEnum.COMMENT.getType()){
         //插入评论
+        Comment dbComment = commentMapper.selectById(comment.getParentId());
         commentMapper.insert(comment);
 
 
         //增加评论数
-
         Comment updateCommentCount = new Comment();
         updateCommentCount.setId(comment.getParentId());
         //updateCommentCount.setCommentCount(comment.getCommentCount()+1);
         commentMapper.incCommentCount(updateCommentCount);
+        //创建通知
+        createNotify(comment, dbComment.getCommentator(), NotificationTypeEnum.REPLY_COMMENT);
+    }else {
+            //回复问题
+            Question question = questionMapper.getById(comment.getParentId());
+            commentMapper.insert(comment);
+            question.setId(comment.getParentId());
+            questionMapper.updateCommentCount(question);
+            //创建通知
+            createNotify(comment,question.getCreator(), NotificationTypeEnum.REPLY_QUESTION);
+        }
+
+    }
+//        创建通知的方法
+    private void createNotify(Comment comment, Integer receiver, NotificationTypeEnum notificationType) {
+        Notification notification = new Notification();
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setType(notificationType.getType());
+        notification.setOuterId(comment.getParentId());
+        notification.setNotifier(comment.getCommentator());
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notification.setReceiver(receiver);
+        notificationMapper.insert(notification);
     }
 
     public List<CommentDTO> listByTargetId(Integer id, CommentTypeEnum type) {
