@@ -10,6 +10,7 @@ import student.community.community.enums.CommentTypeEnum;
 import student.community.community.model.Comment;
 import student.community.community.model.User;
 import student.community.community.services.CommentService;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class CommentController {
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setCommentator(user.getId());
         comment.setCommentCount(1);
-        commentService.insert(comment,user);
+        commentService.insert(comment, user);
         return ResultDTO.okOf();
 
     }
