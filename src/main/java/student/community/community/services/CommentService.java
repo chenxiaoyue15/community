@@ -51,6 +51,7 @@ public class CommentService {
         } else {
             //回复问题
             Question question = questionMapper.getById(comment.getParentId());
+//            comment.setCommentCount(0);
             commentMapper.insert(comment);
             question.setId(comment.getParentId());
             questionMapper.updateCommentCount(question);
